@@ -310,3 +310,99 @@ func TestRandomNumbers(t *testing.T) {
 		t.Fatal("Size isn't correct.")
 	}
 }
+
+func BenchmarkInsertLinearNumbers(b *testing.B) {
+	b.StopTimer()
+	b.ResetTimer()
+	tree := NewTree(func(a, b interface{}) int {
+		a_ := a.(int)
+		b_ := b.(int)
+
+		if a_ < b_ {
+			return 1
+		} else if a_ > b_ {
+			return -1
+		}
+
+		return 0
+	})
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		tree.Insert(i, i)
+	}
+}
+
+func BenchmarkGetLinearNumbers(b *testing.B) {
+	b.StopTimer()
+	b.ResetTimer()
+	tree := NewTree(func(a, b interface{}) int {
+		a_ := a.(int)
+		b_ := b.(int)
+
+		if a_ < b_ {
+			return 1
+		} else if a_ > b_ {
+			return -1
+		}
+
+		return 0
+	})
+	for i := 0; i < b.N; i++ {
+		tree.Insert(i, i)
+	}
+	b.StartTimer()
+
+	for i := 0; i < b.N; i++ {
+		tree.Get(i)
+	}
+}
+
+func BenchmarkRankLinearNumbers(b *testing.B) {
+	b.StopTimer()
+	b.ResetTimer()
+	tree := NewTree(func(a, b interface{}) int {
+		a_ := a.(int)
+		b_ := b.(int)
+
+		if a_ < b_ {
+			return 1
+		} else if a_ > b_ {
+			return -1
+		}
+
+		return 0
+	})
+	for i := 0; i < b.N; i++ {
+		tree.Insert(i, i)
+	}
+	b.StartTimer()
+
+	for i := 0; i < b.N; i++ {
+		tree.Rank(i)
+	}
+}
+
+func BenchmarkEraseLinearNumbers(b *testing.B) {
+	b.StopTimer()
+	b.ResetTimer()
+	tree := NewTree(func(a, b interface{}) int {
+		a_ := a.(int)
+		b_ := b.(int)
+
+		if a_ < b_ {
+			return 1
+		} else if a_ > b_ {
+			return -1
+		}
+
+		return 0
+	})
+	for i := 0; i < b.N; i++ {
+		tree.Insert(i, i)
+	}
+	b.StartTimer()
+
+	for i := 0; i < b.N; i++ {
+		tree.Erase(i)
+	}
+}
