@@ -13,7 +13,16 @@
         - 1st < 2nd: 1
         - 1st > 2nd: -1
 
-
 # License
 - Under the MIT License
 - Copyright (c) 2017 Tsuzu
+
+# Benchmark
+```
+BenchmarkInsertLinearNumbers-12    	 2000000	       873 ns/op
+BenchmarkGetLinearNumbers-12       	 3000000	       613 ns/op
+BenchmarkRankLinearNumbers-12      	10000000	       252 ns/op
+BenchmarkEraseLinearNumbers-12     	 3000000	       632 ns/op
+PASS
+ok  	github.com/cs3238-tsuzu/go-avl	28.392s
+```
