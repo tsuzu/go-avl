@@ -9,17 +9,17 @@ type TestType struct {
 
 func TestInit(t *testing.T) {
 	tree := NewTree(func(a, b interface{}) int {
-		a_ := a.(TestType)
-		b_ := b.(TestType)
+		A := a.(TestType)
+		B := b.(TestType)
 
-		if a_.A < b_.A {
+		if A.A < B.A {
 			return 1
-		} else if a_.A > b_.A {
+		} else if A.A > B.A {
 			return -1
 		} else {
-			if a_.B < b_.B {
+			if A.B < B.B {
 				return 1
-			} else if a_.B > b_.B {
+			} else if A.B > B.B {
 				return -1
 			} else {
 				return 0
@@ -34,17 +34,17 @@ func TestInit(t *testing.T) {
 
 func TestInsertAndGet(t *testing.T) {
 	tree := NewTree(func(a, b interface{}) int {
-		a_ := a.(TestType)
-		b_ := b.(TestType)
+		A := a.(TestType)
+		B := b.(TestType)
 
-		if a_.A < b_.A {
+		if A.A < B.A {
 			return 1
-		} else if a_.A > b_.A {
+		} else if A.A > B.A {
 			return -1
 		} else {
-			if a_.B < b_.B {
+			if A.B < B.B {
 				return 1
-			} else if a_.B > b_.B {
+			} else if A.B > B.B {
 				return -1
 			} else {
 				return 0
@@ -90,17 +90,17 @@ func TestInsertAndGet(t *testing.T) {
 
 func TestInsertAndRank(t *testing.T) {
 	tree := NewTree(func(a, b interface{}) int {
-		a_ := a.(TestType)
-		b_ := b.(TestType)
+		A := a.(TestType)
+		B := b.(TestType)
 
-		if a_.A < b_.A {
+		if A.A < B.A {
 			return 1
-		} else if a_.A > b_.A {
+		} else if A.A > B.A {
 			return -1
 		} else {
-			if a_.B < b_.B {
+			if A.B < B.B {
 				return 1
-			} else if a_.B > b_.B {
+			} else if A.B > B.B {
 				return -1
 			} else {
 				return 0
@@ -143,17 +143,17 @@ func TestInsertAndRank(t *testing.T) {
 
 func TestInsertAndSet(t *testing.T) {
 	tree := NewTree(func(a, b interface{}) int {
-		a_ := a.(TestType)
-		b_ := b.(TestType)
+		A := a.(TestType)
+		B := b.(TestType)
 
-		if a_.A < b_.A {
+		if A.A < B.A {
 			return 1
-		} else if a_.A > b_.A {
+		} else if A.A > B.A {
 			return -1
 		} else {
-			if a_.B < b_.B {
+			if A.B < B.B {
 				return 1
-			} else if a_.B > b_.B {
+			} else if A.B > B.B {
 				return -1
 			} else {
 				return 0
@@ -199,17 +199,17 @@ func TestInsertAndSet(t *testing.T) {
 
 func TestInsertAndErase(t *testing.T) {
 	tree := NewTree(func(a, b interface{}) int {
-		a_ := a.(TestType)
-		b_ := b.(TestType)
+		A := a.(TestType)
+		B := b.(TestType)
 
-		if a_.A < b_.A {
+		if A.A < B.A {
 			return 1
-		} else if a_.A > b_.A {
+		} else if A.A > B.A {
 			return -1
 		} else {
-			if a_.B < b_.B {
+			if A.B < B.B {
 				return 1
-			} else if a_.B > b_.B {
+			} else if A.B > B.B {
 				return -1
 			} else {
 				return 0
@@ -257,12 +257,12 @@ func TestRandomNumbers(t *testing.T) {
 	const size = 10000
 
 	tree := NewTree(func(a, b interface{}) int {
-		a_ := a.(int)
-		b_ := b.(int)
+		A := a.(int)
+		B := b.(int)
 
-		if a_ < b_ {
+		if A < B {
 			return 1
-		} else if a_ > b_ {
+		} else if A > B {
 			return -1
 		}
 
@@ -302,7 +302,7 @@ func TestRandomNumbers(t *testing.T) {
 
 	for i := 0; i < size; i++ {
 		if !tree.Erase(i) {
-			t.Fatalf("Erase faield:", i)
+			t.Fatal("Erase faield:", i)
 		}
 	}
 
@@ -315,12 +315,12 @@ func BenchmarkInsertLinearNumbers(b *testing.B) {
 	b.StopTimer()
 	b.ResetTimer()
 	tree := NewTree(func(a, b interface{}) int {
-		a_ := a.(int)
-		b_ := b.(int)
+		A := a.(int)
+		B := b.(int)
 
-		if a_ < b_ {
+		if A < B {
 			return 1
-		} else if a_ > b_ {
+		} else if A > B {
 			return -1
 		}
 
@@ -336,12 +336,12 @@ func BenchmarkGetLinearNumbers(b *testing.B) {
 	b.StopTimer()
 	b.ResetTimer()
 	tree := NewTree(func(a, b interface{}) int {
-		a_ := a.(int)
-		b_ := b.(int)
+		A := a.(int)
+		B := b.(int)
 
-		if a_ < b_ {
+		if A < B {
 			return 1
-		} else if a_ > b_ {
+		} else if A > B {
 			return -1
 		}
 
@@ -361,12 +361,12 @@ func BenchmarkRankLinearNumbers(b *testing.B) {
 	b.StopTimer()
 	b.ResetTimer()
 	tree := NewTree(func(a, b interface{}) int {
-		a_ := a.(int)
-		b_ := b.(int)
+		A := a.(int)
+		B := b.(int)
 
-		if a_ < b_ {
+		if A < B {
 			return 1
-		} else if a_ > b_ {
+		} else if A > B {
 			return -1
 		}
 
@@ -386,12 +386,12 @@ func BenchmarkEraseLinearNumbers(b *testing.B) {
 	b.StopTimer()
 	b.ResetTimer()
 	tree := NewTree(func(a, b interface{}) int {
-		a_ := a.(int)
-		b_ := b.(int)
+		A := a.(int)
+		B := b.(int)
 
-		if a_ < b_ {
+		if A < B {
 			return 1
-		} else if a_ > b_ {
+		} else if A > B {
 			return -1
 		}
 
