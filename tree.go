@@ -31,7 +31,7 @@ func (t *Tree) get(n *Node, key interface{}) (*Node, bool) {
 	}
 }
 
-func (t *Tree) rank(n *Node, rank int) (*Node, bool) {
+func (t *Tree) index(n *Node, rank int) (*Node, bool) {
 	if n == nil {
 		return nil, false
 	}
@@ -39,11 +39,27 @@ func (t *Tree) rank(n *Node, rank int) (*Node, bool) {
 	m := nodeSizeOr(n.child[0])
 
 	if rank < m {
-		return t.rank(n.child[0], rank)
+		return t.index(n.child[0], rank)
 	} else if rank == m {
 		return n, true
 	} else {
-		return t.rank(n.child[1], rank-m-1)
+		return t.index(n.child[1], rank-m-1)
+	}
+}
+
+func (t *Tree) rank(n *Node, key interface{}, prev int) int {
+	if n == nil {
+		return -1
+	}
+
+	g := t.comparator(n.Key, key)
+
+	if g == 0 {
+		return prev + nodeSizeOr(n.child[0])
+	} else if g < 0 {
+		return t.rank(n.child[0], key, prev)
+	} else {
+		return t.rank(n.child[1], key, prev+nodeSizeOr(n.child[0])+1)
 	}
 }
 
@@ -101,15 +117,21 @@ func (t *Tree) erase(n *Node, key interface{}) (*Node, bool) {
 }
 
 // Get returns the node whose key is 'key' and true.
-// If the key is not found, this returns nil and false.
+// If the key is not found, it returns nil and false.
 func (t *Tree) Get(key interface{}) (*Node, bool) {
 	return t.get(t.root, key)
 }
 
-// Rank returns the node whose key is 'rank' th and true.
-// If the key is not found, this returns nil and false.
-func (t *Tree) Rank(rank int) (*Node, bool) {
-	return t.rank(t.root, rank)
+// Index returns the node whose key is 'rank' th and true.
+// If the key is not found, it returns nil and false.
+func (t *Tree) Index(rank int) (*Node, bool) {
+	return t.index(t.root, rank)
+}
+
+// Rank returns the index of the node whose key is 'key'.
+// If the key is not found, it returns -1.
+func (t *Tree) Rank(key interface{}) int {
+	return t.rank(t.root, key, 0)
 }
 
 // Set adds a new node with 'key' and 'val' if a node with the key isn't found.
@@ -128,7 +150,7 @@ func (t *Tree) Insert(key, val interface{}) bool {
 }
 
 // Erase erases the node whose key is 'key'
-// If the key is not found, this returns false.
+// If the key is not found, it returns false.
 func (t *Tree) Erase(key interface{}) bool {
 	var res bool
 	t.root, res = t.erase(t.root, key)

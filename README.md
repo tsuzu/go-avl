@@ -2,10 +2,10 @@
 - AVL Tree for Golang
 
 # Install
-- go get github.com/cs3238-tsuzu/go-Avl
+- go get github.com/cs3238-tsuzu/go-avl
 
 # Usage
-- import "github.com/cs3238-tsuzu/go-Avl"
+- import "github.com/cs3238-tsuzu/go-avl"
 - Creates a new tree with avl.NewTree(comp)
     - The 1st argument of avl.NewTree() is to compare two keys, Comparator.
     - The value Comparator must returns 
@@ -19,10 +19,11 @@
 
 # Benchmark
 ```
-BenchmarkInsertLinearNumbers-12    	 2000000	       873 ns/op
-BenchmarkGetLinearNumbers-12       	 3000000	       613 ns/op
-BenchmarkRankLinearNumbers-12      	10000000	       252 ns/op
-BenchmarkEraseLinearNumbers-12     	 3000000	       632 ns/op
+BenchmarkInsertLinearNumbers-12    	 2000000	       877 ns/op
+BenchmarkGetLinearNumbers-12       	 3000000	       639 ns/op
+BenchmarkIndexLinearNumbers-12     	10000000	       263 ns/op
+BenchmarkEraseLinearNumbers-12     	 3000000	       596 ns/op
+BenchmarkRankLinearNumbers-12      	 3000000	       637 ns/op
 PASS
-ok  	github.com/cs3238-tsuzu/go-avl	28.392s
+ok  	github.com/cs3238-tsuzu/go-avl	34.916s
 ```
