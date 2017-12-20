@@ -19,11 +19,14 @@
 
 # Benchmark
 ```
-BenchmarkInsertLinearNumbers-12    	 2000000	       877 ns/op
-BenchmarkGetLinearNumbers-12       	 3000000	       639 ns/op
-BenchmarkIndexLinearNumbers-12     	10000000	       263 ns/op
-BenchmarkEraseLinearNumbers-12     	 3000000	       596 ns/op
-BenchmarkRankLinearNumbers-12      	 3000000	       637 ns/op
+goos: darwin
+goarch: amd64
+pkg: github.com/cs3238-tsuzu/go-avl
+BenchmarkInsertLinearNumbers-12    	   10000	   3267119 ns/op
+BenchmarkGetLinearNumbers-12       	   10000	   1424781 ns/op
+BenchmarkIndexLinearNumbers-12     	   10000	    899655 ns/op
+BenchmarkEraseLinearNumbers-12     	   10000	   1868449 ns/op
+BenchmarkRankLinearNumbers-12      	   10000	   1511353 ns/op
 PASS
-ok  	github.com/cs3238-tsuzu/go-avl	34.916s
+ok  	github.com/cs3238-tsuzu/go-avl	221.613s
 ```
