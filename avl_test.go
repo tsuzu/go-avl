@@ -1,7 +1,9 @@
 package avl
 
-import "testing"
-import "math/rand"
+import (
+	"math/rand"
+	"testing"
+)
 
 type TestType struct {
 	A, B int
@@ -356,127 +358,117 @@ func TestRandomNumbers(t *testing.T) {
 }
 
 func BenchmarkInsertLinearNumbers(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		b.StopTimer()
-		tree := NewTree(func(a, b interface{}) int {
-			A := a.(int)
-			B := b.(int)
+	b.StopTimer()
+	tree := NewTree(func(a, b interface{}) int {
+		A := a.(int)
+		B := b.(int)
 
-			if A < B {
-				return 1
-			} else if A > B {
-				return -1
-			}
-
-			return 0
-		})
-		b.StartTimer()
-		for i := 0; i < b.N; i++ {
-			tree.Insert(i, i)
+		if A < B {
+			return 1
+		} else if A > B {
+			return -1
 		}
+
+		return 0
+	})
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		tree.Insert(i, i)
 	}
 }
 
 func BenchmarkGetLinearNumbers(b *testing.B) {
+	b.StopTimer()
+	tree := NewTree(func(a, b interface{}) int {
+		A := a.(int)
+		B := b.(int)
+
+		if A < B {
+			return 1
+		} else if A > B {
+			return -1
+		}
+
+		return 0
+	})
 	for i := 0; i < b.N; i++ {
-		b.StopTimer()
-		tree := NewTree(func(a, b interface{}) int {
-			A := a.(int)
-			B := b.(int)
+		tree.Insert(i, i)
+	}
+	b.StartTimer()
 
-			if A < B {
-				return 1
-			} else if A > B {
-				return -1
-			}
-
-			return 0
-		})
-		for i := 0; i < b.N; i++ {
-			tree.Insert(i, i)
-		}
-		b.StartTimer()
-
-		for i := 0; i < b.N; i++ {
-			tree.Get(i)
-		}
+	for i := 0; i < b.N; i++ {
+		tree.Get(i)
 	}
 }
 
 func BenchmarkIndexLinearNumbers(b *testing.B) {
+	b.StopTimer()
+	tree := NewTree(func(a, b interface{}) int {
+		A := a.(int)
+		B := b.(int)
+
+		if A < B {
+			return 1
+		} else if A > B {
+			return -1
+		}
+
+		return 0
+	})
 	for i := 0; i < b.N; i++ {
-		b.StopTimer()
-		tree := NewTree(func(a, b interface{}) int {
-			A := a.(int)
-			B := b.(int)
+		tree.Insert(i, i)
+	}
+	b.StartTimer()
 
-			if A < B {
-				return 1
-			} else if A > B {
-				return -1
-			}
-
-			return 0
-		})
-		for i := 0; i < b.N; i++ {
-			tree.Insert(i, i)
-		}
-		b.StartTimer()
-
-		for i := 0; i < b.N; i++ {
-			tree.Index(i)
-		}
+	for i := 0; i < b.N; i++ {
+		tree.Index(i)
 	}
 }
 
 func BenchmarkEraseLinearNumbers(b *testing.B) {
+	b.StopTimer()
+	tree := NewTree(func(a, b interface{}) int {
+		A := a.(int)
+		B := b.(int)
+
+		if A < B {
+			return 1
+		} else if A > B {
+			return -1
+		}
+
+		return 0
+	})
 	for i := 0; i < b.N; i++ {
-		b.StopTimer()
-		tree := NewTree(func(a, b interface{}) int {
-			A := a.(int)
-			B := b.(int)
+		tree.Insert(i, i)
+	}
+	b.StartTimer()
 
-			if A < B {
-				return 1
-			} else if A > B {
-				return -1
-			}
-
-			return 0
-		})
-		for i := 0; i < b.N; i++ {
-			tree.Insert(i, i)
-		}
-		b.StartTimer()
-
-		for i := 0; i < b.N; i++ {
-			tree.Erase(i)
-		}
+	for i := 0; i < b.N; i++ {
+		tree.Erase(i)
 	}
 }
 
 func BenchmarkRankLinearNumbers(b *testing.B) {
+	b.StopTimer()
+	tree := NewTree(func(a, b interface{}) int {
+		A := a.(int)
+		B := b.(int)
+
+		if A < B {
+			return 1
+		} else if A > B {
+			return -1
+		}
+
+		return 0
+	})
 	for i := 0; i < b.N; i++ {
-		b.StopTimer()
-		tree := NewTree(func(a, b interface{}) int {
-			A := a.(int)
-			B := b.(int)
+		tree.Insert(i, i)
+	}
+	b.StartTimer()
 
-			if A < B {
-				return 1
-			} else if A > B {
-				return -1
-			}
-
-			return 0
-		})
-		for i := 0; i < b.N; i++ {
-			tree.Insert(i, i)
-		}
-		b.StartTimer()
-
-		for i := 0; i < b.N; i++ {
-			tree.Rank(i)
-		}
+	for i := 0; i < b.N; i++ {
+		tree.Rank(i)
 	}
 }
