@@ -7,18 +7,7 @@ import (
 )
 
 func main() {
-	tree := avl.NewTree(func(a, b interface{}) int {
-		A := a.(int)
-		B := b.(int)
-
-		if A < B {
-			return 1
-		} else if A > B {
-			return -1
-		}
-
-		return 0
-	})
+	tree := avl.NewTreeOrdered[int, int]()
 
 	tree.Insert(100, 1)
 	if !tree.Insert(100, 10) { // NOT inserted and updated
@@ -43,7 +32,7 @@ func main() {
 	}
 
 	if n, ok := tree.Index(1); ok { // 0-indexed
-		fmt.Printf("The 1st node is {%d, %d}.\n", n.Key.(int), n.Val.(int))
+		fmt.Printf("The 1st node is {%d, %d}.\n", n.Key, n.Val)
 	} else {
 		fmt.Println("The 1st node is not found.")
 	}
@@ -55,7 +44,7 @@ func main() {
 	}
 
 	if n, ok := tree.Get(5); ok { // Find with key
-		fmt.Println("The value of the node whose key is 5 is", n.Val.(int))
+		fmt.Println("The value of the node whose key is 5 is", n.Val)
 	} else {
 		fmt.Println("{10, *} is not found.")
 	}

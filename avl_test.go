@@ -1,31 +1,32 @@
 package avl
 
-import "testing"
-import "math/rand"
+import (
+	"math/rand"
+	"testing"
+)
 
 type TestType struct {
 	A, B int
 }
 
-func TestInit(t *testing.T) {
-	tree := NewTree(func(a, b interface{}) int {
-		A := a.(TestType)
-		B := b.(TestType)
-
-		if A.A < B.A {
+func compareTestType(a, b TestType) int {
+	if a.A < b.A {
+		return 1
+	} else if a.A > b.A {
+		return -1
+	} else {
+		if a.B < b.B {
 			return 1
-		} else if A.A > B.A {
+		} else if a.B > b.B {
 			return -1
 		} else {
-			if A.B < B.B {
-				return 1
-			} else if A.B > B.B {
-				return -1
-			} else {
-				return 0
-			}
+			return 0
 		}
-	})
+	}
+}
+
+func TestInit(t *testing.T) {
+	tree := NewTree[TestType, struct{}](compareTestType)
 
 	if tree.root != nil {
 		t.Fatal()
@@ -33,24 +34,7 @@ func TestInit(t *testing.T) {
 }
 
 func TestInsertAndGet(t *testing.T) {
-	tree := NewTree(func(a, b interface{}) int {
-		A := a.(TestType)
-		B := b.(TestType)
-
-		if A.A < B.A {
-			return 1
-		} else if A.A > B.A {
-			return -1
-		} else {
-			if A.B < B.B {
-				return 1
-			} else if A.B > B.B {
-				return -1
-			} else {
-				return 0
-			}
-		}
-	})
+	tree := NewTree[TestType, int](compareTestType)
 
 	if tree.Insert(TestType{100, 1}, 1) == false {
 		t.Fatal("Insert failed(1)")
@@ -68,45 +52,28 @@ func TestInsertAndGet(t *testing.T) {
 	if n, ok := tree.Get(TestType{100, 1}); !ok {
 		t.Fatal("Get failed(1)")
 	} else {
-		if n.Val.(int) != 1 {
+		if n.Val != 1 {
 			t.Fatal("Get failed(1.5)")
 		}
 	}
 	if n, ok := tree.Get(TestType{10, 10}); !ok {
 		t.Fatal("Get failed(2)")
 	} else {
-		if n.Val.(int) != 2 {
+		if n.Val != 2 {
 			t.Fatal("Get failed(2.5)")
 		}
 	}
 	if n, ok := tree.Get(TestType{10, 100}); !ok {
 		t.Fatal("Get failed(3)")
 	} else {
-		if n.Val.(int) != 4 {
+		if n.Val != 4 {
 			t.Fatal("Get failed(3.5)")
 		}
 	}
 }
 
 func TestInsertAndIndex(t *testing.T) {
-	tree := NewTree(func(a, b interface{}) int {
-		A := a.(TestType)
-		B := b.(TestType)
-
-		if A.A < B.A {
-			return 1
-		} else if A.A > B.A {
-			return -1
-		} else {
-			if A.B < B.B {
-				return 1
-			} else if A.B > B.B {
-				return -1
-			} else {
-				return 0
-			}
-		}
-	})
+	tree := NewTree[TestType, int](compareTestType)
 
 	if tree.Insert(TestType{100, 1}, 1) == false {
 		t.Fatal("Insert failed(1)")
@@ -121,45 +88,28 @@ func TestInsertAndIndex(t *testing.T) {
 	if n, ok := tree.Index(2); !ok {
 		t.Fatal("Index failed(1)")
 	} else {
-		if n.Val.(int) != 1 {
+		if n.Val != 1 {
 			t.Fatal("Index failed(1.5)")
 		}
 	}
 	if n, ok := tree.Index(0); !ok {
 		t.Fatal("Index failed(2)")
 	} else {
-		if n.Val.(int) != 2 {
+		if n.Val != 2 {
 			t.Fatal("Index failed(2.5)")
 		}
 	}
 	if n, ok := tree.Index(1); !ok {
 		t.Fatal("Index failed(3)")
 	} else {
-		if n.Val.(int) != 4 {
+		if n.Val != 4 {
 			t.Fatal("Index failed(3.5)")
 		}
 	}
 }
 
 func TestInsertAndSet(t *testing.T) {
-	tree := NewTree(func(a, b interface{}) int {
-		A := a.(TestType)
-		B := b.(TestType)
-
-		if A.A < B.A {
-			return 1
-		} else if A.A > B.A {
-			return -1
-		} else {
-			if A.B < B.B {
-				return 1
-			} else if A.B > B.B {
-				return -1
-			} else {
-				return 0
-			}
-		}
-	})
+	tree := NewTree[TestType, int](compareTestType)
 
 	if tree.Insert(TestType{100, 1}, 1) == false {
 		t.Fatal("Insert failed(1)")
@@ -177,45 +127,28 @@ func TestInsertAndSet(t *testing.T) {
 	if n, ok := tree.Get(TestType{100, 1}); !ok {
 		t.Fatal("Get failed(1)")
 	} else {
-		if n.Val.(int) != 2 {
+		if n.Val != 2 {
 			t.Fatal("Get failed(1.5)")
 		}
 	}
 	if n, ok := tree.Get(TestType{10, 10}); !ok {
 		t.Fatal("Get failed(2)")
 	} else {
-		if n.Val.(int) != 4 {
+		if n.Val != 4 {
 			t.Fatal("Get failed(2.5)")
 		}
 	}
 	if n, ok := tree.Get(TestType{10, 100}); !ok {
 		t.Fatal("Get failed(3)")
 	} else {
-		if n.Val.(int) != 8 {
+		if n.Val != 8 {
 			t.Fatal("Get failed(3.5)")
 		}
 	}
 }
 
 func TestInsertAndErase(t *testing.T) {
-	tree := NewTree(func(a, b interface{}) int {
-		A := a.(TestType)
-		B := b.(TestType)
-
-		if A.A < B.A {
-			return 1
-		} else if A.A > B.A {
-			return -1
-		} else {
-			if A.B < B.B {
-				return 1
-			} else if A.B > B.B {
-				return -1
-			} else {
-				return 0
-			}
-		}
-	})
+	tree := NewTree[TestType, int](compareTestType)
 
 	if tree.Insert(TestType{100, 1}, 1) == false {
 		t.Fatal("Insert failed(1)")
@@ -237,14 +170,14 @@ func TestInsertAndErase(t *testing.T) {
 	if n, ok := tree.Get(TestType{100, 1}); !ok {
 		t.Fatal("Get failed(1)")
 	} else {
-		if n.Val.(int) != 1 {
+		if n.Val != 1 {
 			t.Fatal("Get failed(1.5)")
 		}
 	}
 	if n, ok := tree.Get(TestType{10, 10}); !ok {
 		t.Fatal("Get failed(2)")
 	} else {
-		if n.Val.(int) != 2 {
+		if n.Val != 2 {
 			t.Fatal("Get failed(2.5)")
 		}
 	}
@@ -254,24 +187,7 @@ func TestInsertAndErase(t *testing.T) {
 }
 
 func TestInsertAndRank(t *testing.T) {
-	tree := NewTree(func(a, b interface{}) int {
-		A := a.(TestType)
-		B := b.(TestType)
-
-		if A.A < B.A {
-			return 1
-		} else if A.A > B.A {
-			return -1
-		} else {
-			if A.B < B.B {
-				return 1
-			} else if A.B > B.B {
-				return -1
-			} else {
-				return 0
-			}
-		}
-	})
+	tree := NewTree[TestType, int](compareTestType)
 
 	if tree.Insert(TestType{100, 1}, 1) == false {
 		t.Fatal("Insert failed(1)")
@@ -300,18 +216,7 @@ func TestInsertAndRank(t *testing.T) {
 func TestRandomNumbers(t *testing.T) {
 	const size = 10000
 
-	tree := NewTree(func(a, b interface{}) int {
-		A := a.(int)
-		B := b.(int)
-
-		if A < B {
-			return 1
-		} else if A > B {
-			return -1
-		}
-
-		return 0
-	})
+	tree := NewTreeOrdered[int, int]()
 
 	list := rand.Perm(size)
 	m := make(map[int]int)
@@ -322,8 +227,8 @@ func TestRandomNumbers(t *testing.T) {
 
 	for i := 0; i < size; i++ {
 		if v, ok := tree.Get(list[i]); ok {
-			if v.Val.(int) != m[list[i]] {
-				t.Fatalf("Get Failed:{%d, %d} should be {%d %d}\n", list[i], v.Val.(int), list[i], m[list[i]])
+			if v.Val != m[list[i]] {
+				t.Fatalf("Get Failed:{%d, %d} should be {%d %d}\n", list[i], v.Val, list[i], m[list[i]])
 			}
 		} else {
 			t.Fatalf("Get Failed: {%d, %d} is not found\n", list[i], m[list[i]])
@@ -332,8 +237,8 @@ func TestRandomNumbers(t *testing.T) {
 
 	for i := 0; i < size; i++ {
 		if v, ok := tree.Index(i); ok {
-			if v.Val.(int) != m[i] {
-				t.Fatalf("Get Failed:{%d, %d} should be {%d %d}\n", i, v.Val.(int), i, m[i])
+			if v.Val != m[i] {
+				t.Fatalf("Get Failed:{%d, %d} should be {%d %d}\n", i, v.Val, i, m[i])
 			}
 		} else {
 			t.Fatalf("Get Failed: {%d, %d} is not found\n", i, m[i])
@@ -356,127 +261,62 @@ func TestRandomNumbers(t *testing.T) {
 }
 
 func BenchmarkInsertLinearNumbers(b *testing.B) {
+	tree := NewTreeOrdered[int, int]()
+	b.StartTimer()
+
 	for i := 0; i < b.N; i++ {
-		b.StopTimer()
-		tree := NewTree(func(a, b interface{}) int {
-			A := a.(int)
-			B := b.(int)
-
-			if A < B {
-				return 1
-			} else if A > B {
-				return -1
-			}
-
-			return 0
-		})
-		b.StartTimer()
-		for i := 0; i < b.N; i++ {
-			tree.Insert(i, i)
-		}
+		tree.Insert(i, i)
 	}
 }
 
 func BenchmarkGetLinearNumbers(b *testing.B) {
+	b.StopTimer()
+	tree := NewTreeOrdered[int, int]()
 	for i := 0; i < b.N; i++ {
-		b.StopTimer()
-		tree := NewTree(func(a, b interface{}) int {
-			A := a.(int)
-			B := b.(int)
+		tree.Insert(i, i)
+	}
+	b.StartTimer()
 
-			if A < B {
-				return 1
-			} else if A > B {
-				return -1
-			}
-
-			return 0
-		})
-		for i := 0; i < b.N; i++ {
-			tree.Insert(i, i)
-		}
-		b.StartTimer()
-
-		for i := 0; i < b.N; i++ {
-			tree.Get(i)
-		}
+	for i := 0; i < b.N; i++ {
+		tree.Get(i)
 	}
 }
 
 func BenchmarkIndexLinearNumbers(b *testing.B) {
+	b.StopTimer()
+	tree := NewTreeOrdered[int, int]()
 	for i := 0; i < b.N; i++ {
-		b.StopTimer()
-		tree := NewTree(func(a, b interface{}) int {
-			A := a.(int)
-			B := b.(int)
+		tree.Insert(i, i)
+	}
+	b.StartTimer()
 
-			if A < B {
-				return 1
-			} else if A > B {
-				return -1
-			}
-
-			return 0
-		})
-		for i := 0; i < b.N; i++ {
-			tree.Insert(i, i)
-		}
-		b.StartTimer()
-
-		for i := 0; i < b.N; i++ {
-			tree.Index(i)
-		}
+	for i := 0; i < b.N; i++ {
+		tree.Index(i)
 	}
 }
 
 func BenchmarkEraseLinearNumbers(b *testing.B) {
+	b.StopTimer()
+	tree := NewTreeOrdered[int, int]()
 	for i := 0; i < b.N; i++ {
-		b.StopTimer()
-		tree := NewTree(func(a, b interface{}) int {
-			A := a.(int)
-			B := b.(int)
+		tree.Insert(i, i)
+	}
+	b.StartTimer()
 
-			if A < B {
-				return 1
-			} else if A > B {
-				return -1
-			}
-
-			return 0
-		})
-		for i := 0; i < b.N; i++ {
-			tree.Insert(i, i)
-		}
-		b.StartTimer()
-
-		for i := 0; i < b.N; i++ {
-			tree.Erase(i)
-		}
+	for i := 0; i < b.N; i++ {
+		tree.Erase(i)
 	}
 }
 
 func BenchmarkRankLinearNumbers(b *testing.B) {
+	b.StopTimer()
+	tree := NewTreeOrdered[int, int]()
 	for i := 0; i < b.N; i++ {
-		b.StopTimer()
-		tree := NewTree(func(a, b interface{}) int {
-			A := a.(int)
-			B := b.(int)
+		tree.Insert(i, i)
+	}
+	b.StartTimer()
 
-			if A < B {
-				return 1
-			} else if A > B {
-				return -1
-			}
-
-			return 0
-		})
-		for i := 0; i < b.N; i++ {
-			tree.Insert(i, i)
-		}
-		b.StartTimer()
-
-		for i := 0; i < b.N; i++ {
-			tree.Rank(i)
-		}
+	for i := 0; i < b.N; i++ {
+		tree.Rank(i)
 	}
 }
