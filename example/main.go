@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/cs3238-tsuzu/go-avl"
+	"github.com/tsuzu/go-avl"
 )
 
 func main() {
