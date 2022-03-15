@@ -1,15 +1,15 @@
 package avl
 
 // Node : node for AVL tree
-type Node struct {
-	Key interface{}
-	Val interface{}
+type Node[Key any, Value any] struct {
+	Key Key
+	Val Value
 
 	size, height int
-	child        [2]*Node
+	child        [2]*Node[Key, Value]
 }
 
-func nodeSizeOr(n *Node) int {
+func nodeSizeOr[Key any, Value any](n *Node[Key, Value]) int {
 	if n != nil {
 		return n.size
 	}
@@ -17,7 +17,7 @@ func nodeSizeOr(n *Node) int {
 	return 0
 }
 
-func nodeHeightOr(n *Node) int {
+func nodeHeightOr[Key any, Value any](n *Node[Key, Value]) int {
 	if n != nil {
 		return n.height
 	}
@@ -29,7 +29,7 @@ func nodeHeightOr(n *Node) int {
    to rotate AVL Tree
 */
 
-func rotate(n *Node, l, r int) *Node {
+func rotate[Key any, Value any](n *Node[Key, Value], l, r int) *Node[Key, Value] {
 	s := n.child[r]
 
 	n.child[r] = s.child[l]
@@ -46,7 +46,7 @@ func rotate(n *Node, l, r int) *Node {
 	return balance(s)
 }
 
-func balance(n *Node) *Node {
+func balance[Key any, Value any](n *Node[Key, Value]) *Node[Key, Value] {
 	for i := 0; i < 2; i++ {
 		if nodeHeightOr(n.child[1-i])-nodeHeightOr(n.child[i]) < -1 {
 			if nodeHeightOr(n.child[i].child[1-i])-nodeHeightOr(n.child[i].child[i]) > 0 {
@@ -65,7 +65,7 @@ func balance(n *Node) *Node {
 	return n
 }
 
-func moveDown(n, m *Node) *Node {
+func moveDown[Key any, Value any](n, m *Node[Key, Value]) *Node[Key, Value] {
 	if n == nil {
 		return m
 	}
@@ -74,8 +74,8 @@ func moveDown(n, m *Node) *Node {
 	return balance(n)
 }
 
-func newNode(k, v interface{}) *Node {
-	return &Node{
+func newNode[Key any, Value any](k Key, v Value) *Node[Key, Value] {
+	return &Node[Key, Value]{
 		Key:    k,
 		Val:    v,
 		size:   1,
